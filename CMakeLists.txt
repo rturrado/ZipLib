@@ -1,28 +1,38 @@
 cmake_minimum_required(VERSION 3.5)
-set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
-add_compile_options("-lstdc++fs")
-add_compile_options("-pthread")
-add_compile_options("-O2")
+
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    add_compile_options("-lstdc++fs")
+    add_compile_options("-pthread")
+    set(CMAKE_CXX_COMPILER g++-11)
+endif ()
+
+if(NOT ${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+    add_compile_options("-O2")
+endif()
 
 project(ZIPLIB)
-SET(CMAKE_CXX_COMPILER g++-11)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++20")
 
 file(GLOB CPP_FILES *.cpp)
 file(GLOB DETAIL_FILES detail/*.cpp)
 file(GLOB BZIP2_FILES extlibs/bzip2/*.c)
-file(GLOB LZMA_UNIX_FILES extlibs/lzma/unix/*.c)
-file(GLOB LZMA_UNIX_UTIL_FILES extlibs/lzma/unix/LzmaUtil/*.c)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    file(GLOB LZMA_FILES extlibs/lzma/unix/*.c)
+    file(GLOB LZMA_UTIL_FILES extlibs/lzma/unix/LzmaUtil/*.c)
+else()
+    file(GLOB LZMA_FILES extlibs/lzma/*.c)
+endif()
 file(GLOB ZLIB_FILES extlibs/zlib/*.c)
 
 add_library(${PROJECT_NAME} STATIC 
-${CPP_FILES}
-${DETAIL_FILES}
-${BZIP2_FILES}
-${LZMA_UNIX_FILES}
-${LZMA_UNIX_UTIL_FILES}
-${ZLIB_FILES})
+    ${CPP_FILES}
+    ${DETAIL_FILES}
+    ${BZIP2_FILES}
+    ${LZMA_FILES}
+    ${LZMA_UTIL_FILES}
+    ${ZLIB_FILES}
+)
 
-target_link_libraries(${PROJECT_NAME} Threads::Threads)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 target_include_directories (${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
