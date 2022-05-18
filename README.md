@@ -1,8 +1,6 @@
 # ZipLib
-Fork of Petr Beneš' ziplib wrapper for zlib-, lzma- and bzip2-compressed archive management.
+Fork of [ParadoxGameConverters/ZipLib](https://github.com/ParadoxGameConverters/ZipLib) which, at the same time, is a fork of [Petr Beneš' ziplib](https://bitbucket.org/wbenny/ziplib/src/master/) wrapper for zlib-, lzma- and bzip2-compressed archive management.
 
-For more information see the original at: https://bitbucket.org/wbenny/ziplib/wiki/Home
+ParadoxGameConverters updated the original project to be used with CMake.
 
-Used by ParadoxGameConverters to unpack mods and save games.
-
-Minor alterations have been done to keep it up-to-date.
+This fork fixes the Windows compilation via CMake.
