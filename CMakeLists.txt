@@ -28,6 +28,6 @@ add_library(${PROJECT_NAME} STATIC
     ${DETAIL_FILES}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE BZip2::BZip2 LibLZMA::LibLZMA ZLIB::ZLIB Threads::Threads)
+target_link_libraries(${PROJECT_NAME} PRIVATE bzip2 liblzma::liblzma zlib Threads::Threads)
 target_include_directories (${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
