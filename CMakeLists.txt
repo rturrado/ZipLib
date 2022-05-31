@@ -16,18 +16,26 @@ if(NOT ${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     add_compile_options("-O2")
 endif()
 
-find_package(bzip2 REQUIRED)
-find_package(liblzma REQUIRED)
-find_package(zlib REQUIRED)
-
 file(GLOB CPP_FILES *.cpp)
 file(GLOB DETAIL_FILES detail/*.cpp)
+file(GLOB BZIP2_FILES extlibs/bzip2/*.c)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    file(GLOB LZMA_FILES extlibs/lzma/unix/*.c)
+    file(GLOB LZMA_UTIL_FILES extlibs/lzma/unix/LzmaUtil/*.c)
+else()
+    file(GLOB LZMA_FILES extlibs/lzma/*.c)
+endif()
+file(GLOB ZLIB_FILES extlibs/zlib/*.c)
 
 add_library(${PROJECT_NAME} STATIC 
     ${CPP_FILES}
     ${DETAIL_FILES}
+    ${BZIP2_FILES}
+    ${LZMA_FILES}
+    ${LZMA_UTIL_FILES}
+    ${ZLIB_FILES}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE bzip2 liblzma::liblzma zlib Threads::Threads)
+target_link_libraries(${PROJECT_NAME} Threads::Threads)
 target_include_directories (${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
