@@ -16,9 +16,9 @@ if(NOT ${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     add_compile_options("-O2")
 endif()
 
-find_package(BZip2 REQUIRED)
-find_package(LibLZMA REQUIRED)
-find_package(ZLIB REQUIRED)
+find_package(bzip2 REQUIRED)
+find_package(liblzma REQUIRED)
+find_package(zlib REQUIRED)
 
 file(GLOB CPP_FILES *.cpp)
 file(GLOB DETAIL_FILES detail/*.cpp)
