@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 
+if (POLICY CMP0128)
+    cmake_policy(SET CMP0128 NEW)
+endif()
+
 project(ZIPLIB
     LANGUAGES C CXX
 )
