@@ -3,4 +3,6 @@ Fork of [ParadoxGameConverters/ZipLib](https://github.com/ParadoxGameConverters/
 
 ParadoxGameConverters updated the original project to be used with CMake.
 
-This fork fixes the Windows compilation via CMake.
+This fork:
+- Changed CMakeLists.txt to have the project compiling on Windows.
+- Added check for CMake policy CMP0128.
